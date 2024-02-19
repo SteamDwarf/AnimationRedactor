@@ -1,0 +1,1 @@
+export {AnimationRedactorPage} from './AnimationRedactor.page';
