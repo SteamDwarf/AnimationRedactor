@@ -1,0 +1,51 @@
+.input[type="range"] {
+    appearance: none;
+    border: none;
+    outline: none;
+    background-color: #E0E0E0;
+    height: 2px;
+    cursor: pointer;
+}
+
+.input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border: 2px solid #AFAFAF;
+    border-radius: 50%;
+}
+
+.input[type="checkbox"] {
+    position: relative;
+    appearance: none;
+    width: 20px;
+    height: 12px;
+    border-radius: 45%;
+    background: #AFAFAF;
+}
+
+.input[type="checkbox"]::before {
+    position: absolute;
+    content: " ";
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    top: 15%;
+    left: 10%;
+    transition: transform 0.3s;
+}
+
+.input[type="checkbox"]:checked {
+    background: #3E87F8;
+}
+
+.input[type="checkbox"]:checked::before {
+    transform: translateX(90%);
+}
+
+
+/* .input[type="checkbox"]:checked {
+    background: #ddf8eb;
+} */

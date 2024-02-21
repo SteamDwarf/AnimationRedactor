@@ -1,0 +1,13 @@
+.link {
+    padding: 8px 17px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-family: "Inter";
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #3E87F8;
+    cursor: pointer;
+}

@@ -1,0 +1,12 @@
+.page {
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.demo {
+    margin: 30px 60px;
+}

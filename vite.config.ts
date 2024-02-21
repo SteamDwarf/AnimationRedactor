@@ -9,7 +9,9 @@ export default defineConfig({
       assets: '/src/assets/',
       app: '/src/app/',
       pages: '/src/pages/',
-      widgets: '/src/widgets/'
+      widgets: '/src/widgets/',
+      shared: '/src/shared/',
+      features: '/src/features/'
     }
   }
 })

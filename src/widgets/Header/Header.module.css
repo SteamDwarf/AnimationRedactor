@@ -5,8 +5,8 @@
 }
 
 .navigation {
-    width: 1234px;
-    margin: 0 auto;
+    /* width: 1234px;
+    margin: 0 auto; */
     padding: 12px 11.76px 12px 14.7px;
     display: flex;
     justify-content: space-between;
