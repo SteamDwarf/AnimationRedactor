@@ -23,6 +23,7 @@
     height: 12px;
     border-radius: 45%;
     background: #AFAFAF;
+    cursor: pointer;
 }
 
 .input[type="checkbox"]::before {

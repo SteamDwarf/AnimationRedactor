@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, ReactNode } from 'react';
+import { ChangeEvent, FC, PropsWithChildren, ReactNode } from 'react';
 import styles from './AnimationProperty.module.css';
 import { Select } from 'shared/UIKit/Select';
 import { Input } from 'shared/UIKit/Input';
@@ -6,31 +6,68 @@ import { Input } from 'shared/UIKit/Input';
 type Property = 'range' | 'select' | 'checkbox'
 
 interface IAnimationProperty extends PropsWithChildren {
+    title: string
     name: string
-    value: number | string | boolean
-    textValue?: string
     type: Property
+    onChange: (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void
+    max?: number
+    min?: number
+    textValue?: string
+    step?: number
+    value?: number | string
 }
 
-const getElement = (type: Property, value: number | string | boolean, children?: ReactNode) => {
-    if(type === 'checkbox' && typeof value === 'boolean') {
-        return <Input className={styles.input} type={type} checked={value}/>
+const getElement = (
+    name: string,
+    type: Property, 
+    onChange: (e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void,
+    step: number,
+    max: number,
+    min: number,
+    children?: ReactNode,
+    value?: number | string,
+) => {
+
+    if(type === 'checkbox') {
+        return <Input name={name} onChange={onChange} className={styles.input} type={type}/>
     }
 
-    if(typeof value === 'boolean') return
+    /* if(typeof value === 'boolean') return */
     
     if(type === 'select') {
-        return <Select value={value}>{children}</Select>
+        return <Select name={name} onChange={onChange} value={value}>{children}</Select>
     }
 
-    return <Input className={styles.input} value={value} type={type}/>
+    return (
+        <Input 
+            max={max}
+            min={min}
+            step={step} 
+            name={name} 
+            onChange={onChange} 
+            className={styles.input} 
+            value={value} 
+            type={type}
+        />
+    )
 }
 
-export const AnimationProperty:FC<IAnimationProperty> = ({name, value, textValue, type, children}) => {
+export const AnimationProperty:FC<IAnimationProperty> = ({
+    title,
+    name, 
+    value, 
+    textValue, 
+    type, 
+    children,
+    onChange,
+    step = 1,
+    max = 100,
+    min = 0
+}) => {
     return (
-        <div className={styles.slider}>
-            <span className={styles.name}>{name}</span>
-            {getElement(type, value, children)}
+        <div className={styles.property}>
+            <span className={styles.name}>{title}</span>
+            {getElement(name, type, onChange, step, max, min, children, value)}
             {textValue && <span className={styles.textValue}>{textValue}</span>}
         </div>
     );

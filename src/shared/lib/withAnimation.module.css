@@ -1,0 +1,24 @@
+.container {
+    position: relative;
+}
+
+.mainElement {
+    position: absolute;
+    z-index: 2;
+}
+
+.choosed {
+    opacity: 0.8;
+}
+
+.projection {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+    z-index: 1;
+}
+
+.choosed + .projection {
+    border: 2px dashed #3E87F8 !important; 
+}

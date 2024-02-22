@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { ChangeEvent, FC, useCallback, useContext } from 'react';
 import styles from './AnimationSettings.module.css';
 import { classNames } from 'shared/lib';
 import { AnimationProperty } from 'features/AnimationProperty';
@@ -9,18 +9,91 @@ interface IAnimationSettings {
 }
 
 export const AnimationSettings:FC<IAnimationSettings> = ({className}) => {
-    const {settings} = useContext(AnimationContext);
+    const {settings, changeSettings} = useContext(AnimationContext);
+
+    const setSettingsHandler = useCallback((e: ChangeEvent<HTMLInputElement & HTMLSelectElement>) => {
+        if(e.target.type === 'checkbox') {
+            changeSettings({...settings, [e.target.name]: e.target.checked})
+        } else {
+            changeSettings({...settings, [e.target.name]: e.target.value})
+        }
+    }, [changeSettings, settings])
 
     return (
         <aside className={classNames(styles.container, className)}>
-            <AnimationProperty type='range' name='X' value={settings.x} textValue='80'/>
-            <AnimationProperty type='range' name='Y' value={settings.y} textValue='30'/>
-            <AnimationProperty type='range' name='Opacity' value={settings.opacity} textValue='55%'/>
-            <AnimationProperty type='range' name='Scale' value={settings.scale} textValue='1.2'/>
-            <AnimationProperty type='range' name='Blur' value={settings.blur} textValue='8'/>
-            <AnimationProperty type='range' name='Speed' value={settings.speed} textValue='.3s'/>
-            <AnimationProperty type='range' name='Delay' value={settings.delay} textValue='0s'/>
-            <AnimationProperty type='select' name='Easing' value={settings.easing}>
+            <AnimationProperty 
+                onChange={setSettingsHandler} 
+                name='x'
+                type='range' 
+                title='X' 
+                value={settings.x} 
+                textValue={settings.x}
+                max={300}
+                min={-300}
+            />
+            <AnimationProperty 
+                onChange={setSettingsHandler}
+                name='y'
+                type='range' 
+                title='Y' 
+                value={settings.y} 
+                textValue={settings.y}
+                max={300}
+                min={-300}
+            />
+            <AnimationProperty 
+                onChange={setSettingsHandler}
+                name='opacity'
+                type='range' 
+                title='Opacity' 
+                value={settings.opacity} 
+                textValue={`${Number(settings.opacity) * 100}%`}
+                max={1}
+                step={0.01}
+            />
+            <AnimationProperty 
+                onChange={setSettingsHandler}
+                name='scale' 
+                title='Scale'
+                type='range' 
+                value={settings.scale} 
+                textValue={settings.scale}
+                step={0.01}
+                max={5}
+            />
+            <AnimationProperty 
+                onChange={setSettingsHandler}
+                title='Blur'
+                type='range' 
+                name='blur' 
+                value={settings.blur} 
+                textValue={settings.blur}
+            />
+            <AnimationProperty 
+                onChange={setSettingsHandler}
+                title='Speed'
+                type='range' 
+                name='speed' 
+                value={settings.speed} 
+                textValue={`${settings.speed}s`}
+                step={0.1}
+            />
+            <AnimationProperty 
+                onChange={setSettingsHandler}
+                title='Delay'
+                type='range' 
+                name='delay' 
+                value={settings.delay} 
+                textValue={`${settings.delay}s`}
+                step={0.1}
+            />
+            <AnimationProperty 
+                onChange={setSettingsHandler} 
+                name='easing' 
+                type='select' 
+                title='Easing' 
+                value={settings.easing}
+            >
                 <option value="ease">Ease</option>
                 <option value="ease-in">Ease-in</option>
                 <option value="ease-out">Ease-out</option>
@@ -28,7 +101,12 @@ export const AnimationSettings:FC<IAnimationSettings> = ({className}) => {
                 <option value="linear">Linear</option>
                 <option value="step-start">Step-end</option>
             </AnimationProperty>
-            <AnimationProperty type='checkbox' name='Replay' value={settings.replay}/>
+            <AnimationProperty 
+                onChange={setSettingsHandler}
+                title='Replay'
+                type='checkbox' 
+                name='replay' 
+            />
         </aside>
     );
 }
