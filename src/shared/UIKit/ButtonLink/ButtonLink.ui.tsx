@@ -1,10 +1,14 @@
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
 import styles from './ButtonLink.module.css';
 
-export const ButtonLink:FC<NavLinkProps> = ({to, children}) => {
+interface IButtonLink extends NavLinkProps{
+    onClick?: MouseEventHandler<HTMLAnchorElement>
+}
+
+export const ButtonLink:FC<IButtonLink> = ({to, children, onClick}) => {
     return(
-        <NavLink className={styles.link} to={to}>
+        <NavLink className={styles.link} to={to} onClick={onClick}>
             {children}
         </NavLink>
     );

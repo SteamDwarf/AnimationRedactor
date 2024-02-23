@@ -28,8 +28,8 @@ export const AnimationSettings:FC<IAnimationSettings> = ({className}) => {
                 title='X' 
                 value={settings.x} 
                 textValue={settings.x}
-                max={300}
-                min={-300}
+                max={1000}
+                min={-1000}
             />
             <AnimationProperty 
                 onChange={setSettingsHandler}
@@ -38,8 +38,8 @@ export const AnimationSettings:FC<IAnimationSettings> = ({className}) => {
                 title='Y' 
                 value={settings.y} 
                 textValue={settings.y}
-                max={300}
-                min={-300}
+                max={1000}
+                min={-1000}
             />
             <AnimationProperty 
                 onChange={setSettingsHandler}
@@ -47,7 +47,7 @@ export const AnimationSettings:FC<IAnimationSettings> = ({className}) => {
                 type='range' 
                 title='Opacity' 
                 value={settings.opacity} 
-                textValue={`${Number(settings.opacity) * 100}%`}
+                textValue={`${(Number(settings.opacity) * 100).toFixed(0)}%`}
                 max={1}
                 step={0.01}
             />

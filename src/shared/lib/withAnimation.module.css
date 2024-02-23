@@ -3,22 +3,32 @@
 }
 
 .mainElement {
-    position: absolute;
+    position: relative;
     z-index: 2;
+    cursor: pointer;
 }
 
 .choosed {
     opacity: 0.8;
 }
 
-.projection {
+.projectionHolder {
+    visibility: hidden;
+    height: fit-content;
     position: absolute;
     top: 0;
     left: 0;
-    background-color: red;
     z-index: 1;
 }
 
-.choosed + .projection {
+/* .projection {
+    
+} */
+
+.choosed + .projectionHolder {
     border: 2px dashed #3E87F8 !important; 
+}
+
+.visible {
+    visibility: visible;
 }
