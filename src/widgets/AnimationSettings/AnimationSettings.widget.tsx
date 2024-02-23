@@ -76,6 +76,7 @@ export const AnimationSettings:FC<IAnimationSettings> = ({className}) => {
                 name='speed' 
                 value={settings.speed} 
                 textValue={`${settings.speed}s`}
+                max={5}
                 step={0.1}
             />
             <AnimationProperty 
@@ -85,6 +86,7 @@ export const AnimationSettings:FC<IAnimationSettings> = ({className}) => {
                 name='delay' 
                 value={settings.delay} 
                 textValue={`${settings.delay}s`}
+                max={5}
                 step={0.1}
             />
             <AnimationProperty 

@@ -1,5 +1,6 @@
 import { AnimationContext, AnimationSettings, SettingsSetter, defaultAnimationSettings } from "app/context";
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
+import { getSettingsFromLS, setSettingsToLS } from "shared/api";
 
 interface IElementAnimation {
     elementId: string,
@@ -19,13 +20,11 @@ export const AnimationContextProvider:FC<PropsWithChildren> = ({children}) => {
     const [isPlay, setIsPlay] = useState(false);
 
     const chooseElement = (elementId: string, s: AnimationSettings, setElementSettings: SettingsSetter) => {
-        const savedSettings = localStorage.getItem(elementId);
+        const savedSettings = getSettingsFromLS(elementId);
 
         if(savedSettings) {
-            const parsedSettings = JSON.parse(savedSettings)
-
-            setElementSettings(parsedSettings);
-            setSettings(parsedSettings);
+            setElementSettings(savedSettings);
+            setSettings(savedSettings);
         } else {
             setSettings(s);
         }
@@ -34,7 +33,7 @@ export const AnimationContextProvider:FC<PropsWithChildren> = ({children}) => {
 
     const changeSettings = (settings: AnimationSettings) => {
         if(elementAnimation.elementId) {
-            localStorage.setItem(elementAnimation.elementId, JSON.stringify(settings));
+            setSettingsToLS(elementAnimation.elementId, settings)
         }
         setSettings(settings);
         elementAnimation.setElementSettings(settings);
@@ -53,6 +52,9 @@ export const AnimationContextProvider:FC<PropsWithChildren> = ({children}) => {
         setIsPlay,
         resetChosedElement
     }
+
+    useEffect(() => {
+    },)
 
     return <AnimationContext.Provider value={value}>{children}</AnimationContext.Provider>
 }

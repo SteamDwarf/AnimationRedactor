@@ -1,31 +1,103 @@
-import { AnimationContext, defaultAnimationSettings } from "app/context";
-import { ComponentType, useContext, useEffect, useRef, useState } from "react";
+import { AnimationContext, AnimationSettings, defaultAnimationSettings } from "app/context";
+import { ComponentType, RefObject, useContext, useEffect, useRef, useState } from "react";
 import { IComponent } from "shared/UIKit/interfaces";
 import styles from './withAnimation.module.css';
 import { classNames } from "./classNames";
+import { getSettingsFromLS } from "shared/api";
+
+const stylesToSettings = (styles: CSSStyleDeclaration) => {
+    //const transition = styles.transition.split(' ');
+
+    const settings = {
+        ...defaultAnimationSettings,
+        x: styles.translate.split(' ')[0]?.slice(0, -2),
+        y: styles.translate.split(' ')[1]?.slice(0, -2),
+        opacity: styles.opacity,
+        scale: styles.scale,
+        blur: styles.filter.slice(4, -3),
+    }
+
+    return settings;
+}
+
+const setStyle = (
+    element: RefObject<HTMLElement>, 
+    settings: AnimationSettings,
+    setTransition = false
+) => {
+    if(!element.current) return;
+
+    element.current.style.translate = `${settings.x}px ${settings.y}px`;
+    element.current.style.opacity = `${settings.opacity}`;
+    element.current.style.scale = `${settings.scale}`;
+    element.current.style.filter = `blur(${settings.blur}px)`;
+
+    if(setTransition) {
+        element.current.style.transition = `all ${settings.speed}s ${settings.easing} ${settings.delay}s`;
+    }
+        
+}
+
+const playAnimation = (element: RefObject<HTMLElement>, settings: AnimationSettings) => {
+    if(element.current) {
+        setStyle(element, settings);
+        
+    }
+}
 
 
 export const withAnimation = <T extends IComponent>(Child:ComponentType<T>) => (props: T) => {
     const [startSettings, setStartSettings] = useState(defaultAnimationSettings);
+    const [endSettings, setEndSettings] = useState(defaultAnimationSettings);
     const {chooseElement, choosedElementId, isPlay} = useContext(AnimationContext);
     const projectionRef = useRef<HTMLElement>(null);
     const containerRef = useRef<HTMLElement>(null);
+    const mainElementRef = useRef<HTMLElement>(null);
 
     const onClick = () => {
         if(isPlay) return;
 
         chooseElement(props.id || '', startSettings, setStartSettings);
     }
+
+    const configureAnimation = () => {
+        const settings = getSettingsFromLS(props.id || '');
+        
+        if(!settings) return
+
+        setStartSettings(settings);
+
+        if(mainElementRef.current && isPlay) {
+            setEndSettings(stylesToSettings(mainElementRef.current.style))
+            setStyle(mainElementRef, settings, true);
+            
+            setTimeout(() => playAnimation(mainElementRef, endSettings));
+            /* setTimeout(() => {
+                if(mainElementRef.current && isPlay) {
+                    setStyle(mainElementRef, endSettings);
+                    
+                }
+            }) */
+        }
+    }
+
     //const refedComponent = forwardRef((props) => <Child {...props} ref={ref}/>);
+
 
     useEffect(() => {
         if(projectionRef.current && containerRef.current) {
-            containerRef.current.style.transform = `translate(${startSettings.x}px, ${startSettings.y}px)`;
+            //console.log(containerRef.current.style)
+            containerRef.current.style.translate = `${startSettings.x}px ${startSettings.y}px`;
             projectionRef.current.style.opacity = `${startSettings.opacity}`; // не действует
             containerRef.current.style.scale = `${startSettings.scale}`;
+            containerRef.current.style.filter = `blur(${startSettings.blur}px)`;
             //ref.current.style.animation = `${settings.scale}`;
         }
     }, [startSettings])
+
+    useEffect(configureAnimation, [])
+
+    console.log(startSettings)
 
     return(
         <div className={styles.container}>
@@ -37,6 +109,7 @@ export const withAnimation = <T extends IComponent>(Child:ComponentType<T>) => (
                     {[styles.choosed]: choosedElementId === props.id}
                 )}
                 onClick={onClick} 
+                ref={mainElementRef}
             />
             <div ref={containerRef as any} className={classNames(
                     styles.projectionHolder, 
