@@ -5,28 +5,29 @@ import { ButtonLink } from 'shared/UIKit/ButtonLink';
 import { Container } from 'shared/UIKit/Container';
 import { useContext } from 'react';
 import { AnimationContext } from 'app/context';
+import { Button } from 'shared/UIKit/Button';
+import playSvg from 'assets/Play.svg';
 
 export const Header = () => {
-    const {setIsPlay, resetChosedElement} = useContext(AnimationContext);
+    const {onPreview, resetChosedElement, playAnimation} = useContext(AnimationContext);
 
-    const toMain = () => {
-        setIsPlay(false);
-        resetChosedElement();
-    }
-
-    const toPreview = () => {
-        setIsPlay(true);
-        resetChosedElement();
-    }
     
     return (
         <header className={styles.header}>
             <Container>
                 <nav className={styles.navigation}>
-                    <NavLink onClick={toMain} to='/' className={styles.logo}>
+                    <NavLink onClick={resetChosedElement} to='/' className={styles.logo}>
                         <img src={logo}/>
                     </NavLink>
-                    <ButtonLink onClick={toPreview} to='/preview'>Preview</ButtonLink>
+                    <div className={styles.leftSection}>
+                        {
+                            onPreview && 
+                                <Button  className={styles.buttonImage}  onClick={playAnimation}>
+                                    <img src={playSvg} alt="play" />
+                                </Button>
+                        }
+                        <ButtonLink onClick={resetChosedElement} to='/preview'>Preview</ButtonLink>
+                    </div>
                 </nav>
             </Container>
         </header>

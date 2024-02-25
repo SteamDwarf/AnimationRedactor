@@ -10,11 +10,11 @@ const stylesToSettings = (styles: CSSStyleDeclaration) => {
 
     const settings = {
         ...defaultAnimationSettings,
-        x: styles.translate.split(' ')[0]?.slice(0, -2),
-        y: styles.translate.split(' ')[1]?.slice(0, -2),
-        opacity: styles.opacity,
-        scale: styles.scale,
-        blur: styles.filter.slice(4, -3),
+        x: styles.translate.split(' ')[0]?.slice(0, -2) || defaultAnimationSettings.x,
+        y: styles.translate.split(' ')[1]?.slice(0, -2) || defaultAnimationSettings.y,
+        opacity: styles.opacity || defaultAnimationSettings.opacity,
+        scale: styles.scale || defaultAnimationSettings.scale,
+        blur: styles.filter.slice(4, -3) || defaultAnimationSettings.blur,
     }
 
     return settings;
@@ -38,79 +38,98 @@ const setStyle = (
         
 }
 
-const playAnimation = (element: RefObject<HTMLElement>, settings: AnimationSettings) => {
+/* const playAnimation = (element: RefObject<HTMLElement>, settings: AnimationSettings) => {
     if(element.current) {
         setStyle(element, settings);
         
     }
-}
+} */
 
 
 export const withAnimation = <T extends IComponent>(Child:ComponentType<T>) => (props: T) => {
     const [startSettings, setStartSettings] = useState(defaultAnimationSettings);
     const [endSettings, setEndSettings] = useState(defaultAnimationSettings);
-    const {chooseElement, choosedElementId, isPlay} = useContext(AnimationContext);
+    const {chooseElement, choosedElementId, subscribeAnimation, onPreview} = useContext(AnimationContext);
     const projectionRef = useRef<HTMLElement>(null);
     const containerRef = useRef<HTMLElement>(null);
     const mainElementRef = useRef<HTMLElement>(null);
 
     const onClick = () => {
-        if(isPlay) return;
+        if(onPreview) return;
 
         chooseElement(props.id || '', startSettings, setStartSettings);
     }
 
-    const configureAnimation = () => {
-        const settings = getSettingsFromLS(props.id || '');
-        
-        if(!settings) return
-
-        setStartSettings(settings);
-
-        if(mainElementRef.current && isPlay) {
-            setEndSettings(stylesToSettings(mainElementRef.current.style))
-            setStyle(mainElementRef, settings, true);
-            
-            setTimeout(() => playAnimation(mainElementRef, endSettings));
-            /* setTimeout(() => {
-                if(mainElementRef.current && isPlay) {
-                    setStyle(mainElementRef, endSettings);
-                    
-                }
-            }) */
-        }
-    }
-
-    //const refedComponent = forwardRef((props) => <Child {...props} ref={ref}/>);
-
-
-    useEffect(() => {
+    const changeSettings = () => {
         if(projectionRef.current && containerRef.current) {
-            //console.log(containerRef.current.style)
             containerRef.current.style.translate = `${startSettings.x}px ${startSettings.y}px`;
             projectionRef.current.style.opacity = `${startSettings.opacity}`; // не действует
             containerRef.current.style.scale = `${startSettings.scale}`;
             containerRef.current.style.filter = `blur(${startSettings.blur}px)`;
-            //ref.current.style.animation = `${settings.scale}`;
         }
-    }, [startSettings])
+    }
 
-    useEffect(configureAnimation, [])
+    const loadAnimationSettings = () => {
+        const settings = getSettingsFromLS(props.id || '');
+        
+        if(!settings) return
+        
+        setStartSettings(settings);
+    }
+    const playAnimation = () => {
+        if(mainElementRef.current) {
+            mainElementRef.current.style.transition = '';
+            setStyle(mainElementRef, startSettings)
+            setTimeout(() => {
+                if(mainElementRef.current) {
+                    mainElementRef.current.style.transition = `all ${startSettings.speed}s ${startSettings.easing} ${startSettings.delay}s`;
+                }
+                setStyle(mainElementRef, endSettings);
+            });
+        }
+    }
 
-    console.log(startSettings)
+    useEffect(changeSettings, [startSettings])
+    useEffect(loadAnimationSettings, [props.id]);
+    useEffect(() => {
+        if(props.id) {
+            subscribeAnimation(props.id, playAnimation)
+        }
+    }, [props.id, startSettings])
 
     return(
         <div className={styles.container}>
-            <Child 
-                {...props} 
+            <div
+                onClick={onClick} 
+                ref={mainElementRef as any}
                 className={classNames(
-                    styles.mainElement, 
-                    props.className,
+                    styles.elementContainer,
                     {[styles.choosed]: choosedElementId === props.id}
                 )}
+            >
+                <Child 
+                    {...props} 
+                    className={classNames(
+                        styles.mainElement, 
+                        props.className,
+                    )}
+                />
+            </div>
+            {/* <div
+                className={classNames([styles.choosed]: choosedElementId === props.id)}
                 onClick={onClick} 
-                ref={mainElementRef}
-            />
+                ref={mainElementRef as any}
+            >
+                <Child 
+                    {...props} 
+                    className={classNames(
+                        styles.mainElement, 
+                        props.className,
+                    )}
+                    
+                />
+            </div> */}
+            
             <div ref={containerRef as any} className={classNames(
                     styles.projectionHolder, 
                     {[styles.visible]: choosedElementId === props.id}

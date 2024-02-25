@@ -4,8 +4,6 @@ import { AppRouter } from '../AppRouter'
 export const App = () => {
 
     return (
-        <AnimationContextProvider>
-            <AppRouter />
-        </AnimationContextProvider>
+        <AppRouter />
     )
 }

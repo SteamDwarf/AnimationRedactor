@@ -8,6 +8,11 @@
     cursor: pointer;
 }
 
+.elementContainer {
+    width: fit-content;
+    height: fit-content;
+}
+
 .choosed {
     opacity: 0.8;
 }
@@ -27,6 +32,7 @@
 
 .choosed + .projectionHolder {
     border: 2px dashed #3E87F8 !important; 
+    background-color: rgba(248, 78, 78, 0.496);
 }
 
 .visible {
