@@ -46,7 +46,7 @@ export const withAnimation = <T extends IComponent>(Child:ComponentType<T>) => (
     } = useContext(AnimationContext);
 
     const [startSettings, setStartSettings] = useState(defaultAnimationSettings);
-    const [endSettings, setEndSettings] = useState(defaultAnimationSettings);
+    const [endSettings] = useState(defaultAnimationSettings);
     const projectionRef = useRef<HTMLElement>(null);
     const containerRef = useRef<HTMLElement>(null);
     const mainElementRef = useRef<HTMLElement>(null);
