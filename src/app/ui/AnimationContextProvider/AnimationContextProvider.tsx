@@ -48,6 +48,7 @@ export const AnimationContextProvider:FC<PropsWithChildren> = ({children}) => {
 
     const resetChosedElement = () => {
         setElementAnimation(defaultElementAnimation);
+        setSettings(defaultAnimationSettings);
     }
 
     const subscribeAnimation = (elementId: string, handler: () => void) => {

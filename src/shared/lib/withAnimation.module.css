@@ -9,12 +9,49 @@
 }
 
 .elementContainer {
+    position: relative;
     width: fit-content;
     height: fit-content;
+    z-index: 3;
+}
+
+.rect {
+    visibility: hidden;
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 1px solid #3E87F8;
+    background-color: #fff;
+    border-radius: 2px;
+    z-index: 3;
+}
+
+.rect:nth-of-type(1) {
+    top: -5px;
+    left: -5px;
+}
+
+.rect:nth-of-type(2) {
+    top: -5px;
+    right: -5px;
+}
+.rect:nth-of-type(3) {
+    bottom: -5px;
+    left: -5px;
+}
+
+.rect:nth-of-type(4) {
+    bottom: -5px;
+    right: -5px;
 }
 
 .choosed {
     opacity: 0.8;
+    border: 1px solid #3E87F8;
+}
+
+.choosed .rect {
+    visibility: visible;
 }
 
 .projectionHolder {
@@ -32,7 +69,7 @@
 
 .choosed + .projectionHolder {
     border: 2px dashed #3E87F8 !important; 
-    background-color: rgba(248, 78, 78, 0.496);
+    background-color: rgba(112, 179, 255, 0.5);
 }
 
 .visible {
