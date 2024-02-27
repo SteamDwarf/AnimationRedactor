@@ -18,12 +18,10 @@ export type SettingsSetter = (settings: AnimationSettings) => void;
 
 type AnimationContext = {
     onPreview: boolean,
-    isPlay: boolean,
     choosedElementId: string,
     settings: AnimationSettings,
     changeSettings: (s: AnimationSettings) => void,
     chooseElement: (elementId: string, s: AnimationSettings, setElementSettings: SettingsSetter) => void,
-    setIsPlay: (state: boolean) => void,
     resetChosedElement: () => void,
     subscribeAnimation: (elementId: string, handler: () => void) => void
     playAnimation: () => void
@@ -31,12 +29,10 @@ type AnimationContext = {
 
 const defaultValue = {
     onPreview: false,
-    isPlay: false,
     choosedElementId: '',
     settings: defaultAnimationSettings,
     changeSettings: () => null,
     chooseElement: () => null,
-    setIsPlay: () => null,
     resetChosedElement: () => null,
     subscribeAnimation: () => null,
     playAnimation: () => null

@@ -21,7 +21,6 @@ const defaultElementAnimation:IElementAnimation = {
 export const AnimationContextProvider:FC<PropsWithChildren> = ({children}) => {
     const [settings, setSettings] = useState(defaultAnimationSettings);
     const [elementAnimation, setElementAnimation] = useState(defaultElementAnimation);
-    const [isPlay, setIsPlay] = useState(false);
     const [onPreview, setOnPreview] = useState(false);
     const {pathname} = useLocation();
     const [animationSubscribers, setAnimationSubscribers] = useState<SubscribersDictionary>({});
@@ -63,12 +62,10 @@ export const AnimationContextProvider:FC<PropsWithChildren> = ({children}) => {
 
     const value = {
         onPreview,
-        isPlay,
         choosedElementId: elementAnimation.elementId, 
         changeSettings, 
         settings, 
         chooseElement,
-        setIsPlay,
         resetChosedElement,
         subscribeAnimation,
         playAnimation
@@ -76,11 +73,6 @@ export const AnimationContextProvider:FC<PropsWithChildren> = ({children}) => {
 
     useEffect(() => {
         setOnPreview(pathname === '/preview');
-        /* console.log(pathname);
-        if(pathname === '/preview') {
-            console.log("play");
-            playAnimation();
-        } */
     }, [pathname])
 
     return <AnimationContext.Provider value={value}>{children}</AnimationContext.Provider>

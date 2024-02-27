@@ -1,17 +1,18 @@
-import { FC, forwardRef } from "react"
+import { FC, RefObject, forwardRef } from "react"
 import styles from './Button.module.css';
 import { classNames } from "shared/lib";
 
-export interface ButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    // customProps
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   }
 
 
 export const Button:FC<ButtonProps> = forwardRef(({children, className, onClick}, ref) => {
     return (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <button ref={ref as any} onClick={onClick} className={classNames(styles.button, className)}>
+        <button 
+            ref={ref as RefObject<HTMLButtonElement>} 
+            onClick={onClick} 
+            className={classNames(styles.button, className)}
+        >
             {children}
         </button>
     )

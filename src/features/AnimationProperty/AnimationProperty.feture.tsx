@@ -32,8 +32,6 @@ const getElement = (
         return <Input name={name} onChange={onChange} className={styles.input} type={type}/>
     }
 
-    /* if(typeof value === 'boolean') return */
-    
     if(type === 'select') {
         return <Select name={name} onChange={onChange} value={value}>{children}</Select>
     }

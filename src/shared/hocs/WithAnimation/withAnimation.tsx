@@ -2,7 +2,7 @@ import { AnimationContext, AnimationSettings, defaultAnimationSettings } from "a
 import { ComponentType, LegacyRef, RefObject, useContext, useEffect, useRef, useState } from "react";
 import { IComponent } from "shared/UIKit/interfaces";
 import styles from './withAnimation.module.css';
-import { classNames } from "./classNames";
+import { classNames } from "../../lib/classNames";
 import { getSettingsFromLS } from "shared/api";
 
 /* const stylesToSettings = (styles: CSSStyleDeclaration) => {

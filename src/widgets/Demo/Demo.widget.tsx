@@ -1,11 +1,12 @@
 import { FC } from "react";
-import { classNames, withAnimation } from "shared/lib";
+import { classNames } from "shared/lib";
 import styles from './Demo.module.css';
 import image from 'assets/67acaaf5adf6b661768b042a4bcab8dc.png';
-import { AnimatedButton } from "features/AnimatedButton";
 import { Title } from "shared/UIKit/Title";
 import { Text } from "shared/UIKit/Text";
 import { Image } from "shared/UIKit/Image";
+import { Button } from "shared/UIKit/Button";
+import { withAnimation } from "shared/hocs/WithAnimation";
 
 interface IDemo {
     className?: string
@@ -14,6 +15,7 @@ interface IDemo {
 const AnimatedTitle = withAnimation(Title);
 const AnimatedText = withAnimation(Text);
 const AnimatedImage = withAnimation(Image);
+const AnimatedButton = withAnimation(Button);
 
 export const Demo:FC<IDemo> = ({className}) => {
 

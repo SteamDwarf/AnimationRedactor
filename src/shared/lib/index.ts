@@ -1,2 +1,2 @@
 export {classNames} from './classNames';
-export {withAnimation} from './withAnimations';
+export {withAnimation} from '../hocs/WithAnimation/withAnimation';
