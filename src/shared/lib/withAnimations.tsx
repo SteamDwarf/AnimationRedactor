@@ -95,6 +95,12 @@ export const withAnimation = <T extends IComponent>(Child:ComponentType<T>) => (
 
     useEffect(loadAnimationSettings, [props.id]);
     useEffect(changeSettings, [startSettings, props.id])
+    useEffect(() => {
+        if(onPreview) {
+            loadAnimationSettings();
+            playAnimation();
+        }
+    }, [onPreview])
 
     return(
         <div className={styles.container}>

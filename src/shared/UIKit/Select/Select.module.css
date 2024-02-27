@@ -3,7 +3,7 @@
     appearance: none;
     border: none;
     outline: none;
-    font-family: "Inter";
+    font-family: "Inter", sans-serif;
     font-size: 12px;
     cursor: pointer;
 }

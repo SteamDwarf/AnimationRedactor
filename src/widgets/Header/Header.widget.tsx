@@ -22,11 +22,15 @@ export const Header = () => {
                     <div className={styles.leftSection}>
                         {
                             onPreview && 
-                                <Button  className={styles.buttonImage}  onClick={playAnimation}>
-                                    <img src={playSvg} alt="play" />
-                                </Button>
+                            <Button  className={styles.buttonImage}  onClick={playAnimation}>
+                                <img src={playSvg} alt="play" />
+                            </Button>
                         }
-                        <ButtonLink onClick={resetChosedElement} to='/preview'>Preview</ButtonLink>
+                        {
+                            onPreview 
+                            ? <ButtonLink onClick={resetChosedElement} to='/'>Redactor</ButtonLink>
+                            : <ButtonLink onClick={resetChosedElement} to='/preview'>Preview</ButtonLink>
+                        }
                     </div>
                 </nav>
             </Container>

@@ -1,5 +1,7 @@
 .container {
+    height: fit-content;
     padding: 70px;
+    padding-bottom: 110px;
     display: flex;
     column-gap: 60px;
     background-color: #fff;

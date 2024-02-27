@@ -76,7 +76,11 @@ export const AnimationContextProvider:FC<PropsWithChildren> = ({children}) => {
 
     useEffect(() => {
         setOnPreview(pathname === '/preview');
-        //setIsPlay(pathname === '/preview');
+        /* console.log(pathname);
+        if(pathname === '/preview') {
+            console.log("play");
+            playAnimation();
+        } */
     }, [pathname])
 
     return <AnimationContext.Provider value={value}>{children}</AnimationContext.Provider>
