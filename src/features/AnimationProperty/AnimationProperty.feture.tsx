@@ -29,15 +29,16 @@ const getElement = (
 ) => {
 
     if(type === 'checkbox') {
-        return <Input name={name} onChange={onChange} className={styles.input} type={type}/>
+        return <Input id={name} name={name} onChange={onChange} className={styles.input} type={type}/>
     }
 
     if(type === 'select') {
-        return <Select name={name} onChange={onChange} value={value}>{children}</Select>
+        return <Select id={name} name={name} onChange={onChange} value={value}>{children}</Select>
     }
 
     return (
         <Input 
+            id={name}
             max={max}
             min={min}
             step={step} 
@@ -64,7 +65,7 @@ export const AnimationProperty:FC<IAnimationProperty> = ({
 }) => {
     return (
         <div className={styles.property}>
-            <strong className={styles.name}>{title}</strong>
+            <label htmlFor={name} className={styles.name}>{title}</label>
             {getElement(name, type, onChange, step, max, min, children, value)}
             {textValue && <span className={styles.textValue}>{textValue}</span>}
         </div>
