@@ -89,7 +89,7 @@ export const withAnimation = <T extends IComponent>(Child:ComponentType<T>) => (
                     mainElementRef.current.style.transition = `all ${startSettings.speed}s ${startSettings.easing} ${startSettings.delay}s`;
                 }
                 setStyle(mainElementRef, endSettings);
-            });
+            }, 100);
         }
     }
 
