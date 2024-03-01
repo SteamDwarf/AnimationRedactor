@@ -19,7 +19,7 @@ export const Header = () => {
                     <NavLink onClick={resetChosedElement} to='/' className={styles.logo}>
                         <img src={logo}/>
                     </NavLink>
-                    <div className={styles.leftSection}>
+                    <section className={styles.leftSection}>
                         {
                             onPreview && 
                             <Button  className={styles.buttonImage}  onClick={playAnimation}>
@@ -31,7 +31,7 @@ export const Header = () => {
                             ? <ButtonLink onClick={resetChosedElement} to='/'>Redactor</ButtonLink>
                             : <ButtonLink onClick={resetChosedElement} to='/preview'>Preview</ButtonLink>
                         }
-                    </div>
+                    </section>
                 </nav>
             </Container>
         </header>

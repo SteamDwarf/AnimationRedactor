@@ -64,7 +64,7 @@ export const AnimationProperty:FC<IAnimationProperty> = ({
 }) => {
     return (
         <div className={styles.property}>
-            <span className={styles.name}>{title}</span>
+            <strong className={styles.name}>{title}</strong>
             {getElement(name, type, onChange, step, max, min, children, value)}
             {textValue && <span className={styles.textValue}>{textValue}</span>}
         </div>
